@@ -76,7 +76,7 @@ export function Navbar({ currentPath = "" }: NavbarProps) {
           })}
           <Link
             href="/projects"
-            className="px-5 py-2.5 rounded-full bg-primary text-background text-sm font-medium hover:bg-destructive transition-colors"
+            className="px-5 py-2.5 rounded-full bg-destructive text-background text-sm font-medium hover:bg-destructive transition-colors"
           >
             Give
           </Link>
@@ -114,7 +114,7 @@ export function Navbar({ currentPath = "" }: NavbarProps) {
               <Link
                 href="/projects"
                 onClick={() => setMobileOpen(false)}
-                className="mt-3 px-5 py-3 rounded-full bg-primary text-background text-sm font-medium text-center"
+                className="mt-3 px-5 py-3 rounded-full bg-destructive text-background text-sm font-medium text-center"
               >
                 Give
               </Link>

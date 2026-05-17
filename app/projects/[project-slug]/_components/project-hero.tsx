@@ -3,23 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
-import type { Variants } from "motion/react";
-import { ChevronRight, Home } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import type { Project } from "../../types";
-import { AccentTitle } from "./accent-title";
+import { EASE_OUT_EXPO } from "@/src/app/projects/[project-slug]/_lib/easings";
 
 interface ProjectHeroProps {
   project: Pick<Project, "breadcrumb" | "eyebrow" | "title" | "subtitle" | "heroImage">;
 }
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
-const fade: Variants = {
-  hidden: { opacity: 0, y: 16 },
+const fade = {
+  hidden: { opacity: 0, y: 18 },
   show: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: i * 0.08, ease },
+    transition: { duration: 0.7, delay: i * 0.1, ease: EASE_OUT_EXPO },
   }),
 };
 
@@ -27,83 +24,101 @@ export function ProjectHero({ project }: ProjectHeroProps) {
   const { breadcrumb, eyebrow, title, subtitle, heroImage } = project;
 
   return (
-    <section className="max-w-310 mx-auto px-6 md:px-10 lg:px-20">
-      {/* Breadcrumb */}
+    <section className="max-w-[1240px] mx-auto px-6 md:px-10 lg:px-20">
+      {/* Breadcrumb — subtle, elegant, no home icon */}
       <motion.nav
         variants={fade}
         initial="hidden"
         animate="show"
         custom={0}
         aria-label="Breadcrumb"
-        className="pt-6 md:pt-10 flex items-center gap-1.5 text-xs uppercase tracking-[0.14em] text-muted-foreground"
+        className="pt-8 md:pt-12 flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground"
       >
-        <Link
-          href="/"
-          className="flex items-center gap-1.5 text-destructive/50 hover:text-destructive transition-colors"
-        >
-          <Home size={12} />
-          <span>Home</span>
+        <Link href="/" className="hover:text-foreground transition-colors">
+          Home
         </Link>
-        <ChevronRight size={12} className="opacity-50" />
+        <ChevronRight size={11} className="opacity-40" strokeWidth={2} />
         <Link
           href={breadcrumb.parentHref}
-          className="text-destructive/50 hover:text-destructive transition-colors"
+          className="hover:text-foreground transition-colors"
         >
           {breadcrumb.parentLabel}
         </Link>
-        <ChevronRight size={12} className="opacity-50" />
-        <span className="text-destructive/40 truncate max-w-[60vw]">
+        <ChevronRight size={11} className="opacity-40" strokeWidth={2} />
+        <span className="text-foreground/70 truncate max-w-[55vw]">
           {breadcrumb.label}
         </span>
       </motion.nav>
 
-      {/* Hero content */}
-      <div className="pt-10 md:pt-5 pb-10 md:pb-12">
+      {/* Hero content — narrower column, more dramatic spacing */}
+      <div className="pt-14 md:pt-24 pb-12 md:pb-16 max-w-4xl">
         <motion.div
           variants={fade}
           initial="hidden"
           animate="show"
           custom={1}
-          className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-5 md:mb-7"
+          className="text-[0.7rem] uppercase tracking-[0.22em] text-destructive font-medium mb-8 md:mb-10"
         >
           {eyebrow}
         </motion.div>
 
-        <motion.div variants={fade} initial="hidden" animate="show" custom={2}>
-          <AccentTitle
-            parts={title}
-            as="h1"
-            className="max-w-[18ch] mb-6 md:mb-8 font-semibold"
-          />
-        </motion.div>
+        {/* Title — bigger, more confident, with serif italic emphasis */}
+        <motion.h1
+          variants={fade}
+          initial="hidden"
+          animate="show"
+          custom={2}
+          className="text-[clamp(2.75rem,6.5vw,5.5rem)] leading-[0.95] tracking-[-0.025em] font-medium text-foreground mb-8 md:mb-10"
+        >
+          {title.leading}{" "}
+          <span
+            className="text-destructive italic font-light"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            {title.emphasis}
+          </span>
+          {title.trailing ?? ""}
+        </motion.h1>
 
+        {/* Subtitle — now styled as the editorial lede */}
         <motion.p
           variants={fade}
           initial="hidden"
           animate="show"
           custom={3}
-          className="text-lg md:text-xl text-muted-foreground max-w-[54ch] leading-relaxed font-light"
+          className="editorial-lede max-w-[34ch]"
         >
           {subtitle}
         </motion.p>
       </div>
 
-      {/* Hero image — responsive, next/image */}
-      <motion.div
+      {/* Hero image — taller, more cinematic, with a caption strip */}
+      <motion.figure
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.9, delay: 0.35, ease }}
-        className="relative w-full aspect-16/10  rounded-2xl md:rounded-3xl overflow-hidden bg-muted shadow-lg"
+        transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="relative"
       >
-        <Image
-          src={heroImage.src}
-          alt={heroImage.alt}
-          fill
-          priority
-          sizes="(min-width: 1240px) 1200px, 100vw"
-          className="object-cover"
-        />
-      </motion.div>
+        <div className="relative w-full aspect-[4/5] sm:aspect-[16/10] md:aspect-[16/8] rounded-2xl md:rounded-3xl overflow-hidden bg-muted shadow-xl">
+          <Image
+            src={heroImage.src}
+            alt={heroImage.alt}
+            fill
+            priority
+            sizes="(min-width: 1240px) 1200px, 100vw"
+            className="object-cover"
+          />
+          {/* Subtle gradient at bottom for caption legibility */}
+          <div
+            aria-hidden
+            className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-foreground/40 to-transparent pointer-events-none"
+          />
+        </div>
+        <figcaption className="mt-4 flex items-baseline gap-3 text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
+          <span className="w-8 h-px bg-border" aria-hidden />
+          <span>{heroImage.alt}</span>
+        </figcaption>
+      </motion.figure>
     </section>
   );
 }

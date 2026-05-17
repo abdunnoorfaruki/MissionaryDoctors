@@ -93,7 +93,7 @@ export function DonateCard({ project, embedded = false, className }: DonateCardP
           <AnimatedNumber
             value={liveRaised}
             animateOnChange
-            className="text-primary font-light"
+            className="text-destructive font-light"
           />
         </span>
       </div>
@@ -111,7 +111,7 @@ export function DonateCard({ project, embedded = false, className }: DonateCardP
           animate={{ scaleX: inView ? percent / 100 : 0 }}
           transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
           style={{ transformOrigin: "left center" }}
-          className="absolute inset-0 bg-primary rounded-full"
+          className="absolute inset-0 bg-destructive rounded-full"
         />
         {/* Subtle shimmer on the bar */}
         <motion.div
@@ -237,7 +237,7 @@ export function DonateCard({ project, embedded = false, className }: DonateCardP
               transition={{ duration: 0.4, delay: 0.4 + i * 0.08 }}
               className="flex gap-2.5 items-start text-sm text-muted-foreground leading-snug"
             >
-              <Icon size={14} className="mt-0.5 shrink-0 text-primary" />
+              <Icon size={14} className="mt-0.5 shrink-0 text-destructive" />
               <span>{renderBold(promise)}</span>
             </motion.li>
           );

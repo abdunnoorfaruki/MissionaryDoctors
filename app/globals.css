@@ -204,6 +204,7 @@
     @apply font-sans;
   }
 } */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&display=swap");
 
 
 @import "tailwindcss";
@@ -441,5 +442,68 @@
       animation: none;
       background: color-mix(in oklch, var(--foreground) 4%, transparent);
     }
+  }
+}
+
+/* =========================================================
+   EDITORIAL TYPOGRAPHY — add to bottom of globals.css
+   ========================================================= */
+
+/* Fraunces — for editorial moments only (lede, pull quotes, italic emphasis).
+   Outfit (your --font-sans) remains for body, UI, headings. */
+
+:root {
+  --font-serif: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+/* Drop-cap utility — apply to the first paragraph of a section
+   for that "magazine opening" feel. */
+@layer utilities {
+  .editorial-dropcap::first-letter {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    float: left;
+    font-size: 4.5em;
+    line-height: 0.85;
+    margin: 0.1em 0.08em 0 -0.04em;
+    color: var(--destructive);
+    font-feature-settings: "ss01";
+  }
+
+  /* Body prose — slightly warmer than --muted-foreground, sized for reading */
+  .prose-reading {
+    color: color-mix(in oklch, var(--foreground) 78%, var(--background));
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.75;
+    letter-spacing: 0.005em;
+  }
+
+  @media (min-width: 768px) {
+    .prose-reading {
+      font-size: 1.1875rem; /* 19px on desktop */
+      line-height: 1.8;
+    }
+  }
+
+  /* The "lede" — the single intriguing sentence that opens a section */
+  .editorial-lede {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1.625rem, 2.6vw, 2.125rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--foreground);
+  }
+
+  /* Pull-quote treatment for a single dramatic line */
+  .editorial-pullquote {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--foreground);
   }
 }
